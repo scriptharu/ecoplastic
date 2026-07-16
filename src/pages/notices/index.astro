@@ -1,11 +1,19 @@
 ---
 // src/pages/notices/index.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import PostList from '../../components/PostList.astro';
 import { getCollection } from 'astro:content';
 const posts = await getCollection('notices');
 ---
-<BaseLayout title="공지사항·세미나·행사">
-  <h1>공지사항·세미나·행사</h1>
-  <PostList base="/notices" posts={posts} perPage={30} />
+<BaseLayout title="공지사항·세미나·행사" wide={true}>
+  <PageHeader
+    eyebrow="Notice"
+    title="공지사항·세미나·행사"
+    description="사업단의 공지, 세미나, 특강, 행사 소식을 확인하세요."
+  />
+  <div class="container board">
+    <PostList base="/notices" posts={posts} perPage={30} />
+  </div>
 </BaseLayout>
+<style>.board { padding: 64px 0 96px; }</style>

@@ -1,11 +1,19 @@
 ---
 // src/pages/news/index.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import PostList from '../../components/PostList.astro';
 import { getCollection } from 'astro:content';
 const posts = await getCollection('news');
 ---
-<BaseLayout title="이슈·뉴스">
-  <h1>이슈·뉴스</h1>
-  <PostList base="/news" posts={posts} perPage={30} />
+<BaseLayout title="이슈·뉴스" wide={true}>
+  <PageHeader
+    eyebrow="News"
+    title="이슈·뉴스"
+    description="탈플라스틱·순환경제 관련 정책 브리프, 보고서, 인터뷰, 채용 소식."
+  />
+  <div class="container board">
+    <PostList base="/news" posts={posts} perPage={30} />
+  </div>
 </BaseLayout>
+<style>.board { padding: 64px 0 96px; }</style>
