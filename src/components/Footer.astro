@@ -1,0 +1,18 @@
+---
+// src/components/Footer.astro
+import { SITE } from '../consts';
+---
+<footer class="site-footer">
+  <div class="container">
+    <p class="title">{SITE.title}</p>
+    <p>{SITE.contact}</p>
+    <p>{SITE.email}</p>
+    <p class="copy">© {new Date().getFullYear()} {SITE.title}</p>
+  </div>
+</footer>
+<style>
+  .site-footer { background: var(--bg-soft); border-top: 1px solid var(--line); margin-top: 64px; padding: 32px 0; color: var(--muted); font-size: .9rem; }
+  .site-footer .title { color: var(--ink); font-weight: 700; }
+  .site-footer p { margin: 4px 0; }
+  .copy { margin-top: 12px; }
+</style>

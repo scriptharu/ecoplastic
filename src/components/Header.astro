@@ -1,0 +1,28 @@
+---
+// src/components/Header.astro
+import { SITE, NAV } from '../consts';
+import { withBase } from '../lib/url';
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={withBase('/')}>{SITE.shortTitle}</a>
+    <nav aria-label="주 메뉴">
+      <ul>
+        {NAV.map((item) => (
+          <li><a href={withBase(item.href)}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { background: var(--cau-blue); color: #fff; }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { color: #fff; font-weight: 700; font-size: 1.1rem; }
+  nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; }
+  nav a { color: #fff; font-weight: 500; }
+  @media (max-width: 640px) {
+    .bar { flex-direction: column; height: auto; padding-top: 12px; padding-bottom: 12px; gap: 8px; }
+    nav ul { gap: 16px; flex-wrap: wrap; justify-content: center; }
+  }
+</style>
