@@ -1,11 +1,19 @@
 ---
 // src/pages/resources/index.astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import PostList from '../../components/PostList.astro';
 import { getCollection } from 'astro:content';
 const posts = await getCollection('resources');
 ---
-<BaseLayout title="전문정보·자료실">
-  <h1>전문정보·자료실</h1>
-  <PostList base="/resources" posts={posts} perPage={30} />
+<BaseLayout title="전문정보·자료실" wide={true}>
+  <PageHeader
+    eyebrow="Resources"
+    title="전문정보·자료실"
+    description="연구 논문, 참고 자료, 인턴십 정보를 한 곳에서 확인하세요."
+  />
+  <div class="container board">
+    <PostList base="/resources" posts={posts} perPage={30} />
+  </div>
 </BaseLayout>
+<style>.board { padding: 64px 0 96px; }</style>

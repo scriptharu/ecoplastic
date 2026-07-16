@@ -10,7 +10,10 @@ const sorted = sortByDateDesc(publishedOnly(posts));
 const { items, page: cur, totalPages } = paginate(sorted, page, perPage);
 ---
 {items.length === 0 ? (
-  <p class="empty">등록된 글이 없습니다.</p>
+  <div class="empty">
+    <span class="empty-mark" aria-hidden="true">🌱</span>
+    <p>아직 등록된 글이 없습니다.</p>
+  </div>
 ) : (
   <div class="grid">
     {items.map((post) => (
@@ -32,11 +35,22 @@ const { items, page: cur, totalPages } = paginate(sorted, page, perPage);
   </nav>
 )}
 <style>
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
   @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
-  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
-  .pager { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
-  .pager a { padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; }
-  .pager a.on { background: var(--cau-blue); color: #fff; }
+  .empty {
+    text-align: center; padding: 80px 24px; color: var(--muted);
+    border: 1.5px dashed var(--line-strong); border-radius: var(--radius-lg);
+    background: var(--surface);
+  }
+  .empty-mark { font-size: 2.4rem; display: block; margin-bottom: 12px; }
+  .pager { display: flex; gap: 8px; justify-content: center; margin-top: 44px; }
+  .pager a {
+    min-width: 40px; text-align: center; padding: 9px 14px;
+    border: 1px solid var(--line); border-radius: 10px;
+    font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-soft);
+    background: var(--surface); transition: all 0.2s var(--ease);
+  }
+  .pager a:hover { border-color: var(--eco-500); color: var(--eco-600); }
+  .pager a.on { background: var(--cau-700); color: #fff; border-color: var(--cau-700); }
 </style>

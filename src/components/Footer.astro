@@ -1,18 +1,75 @@
 ---
 // src/components/Footer.astro
-import { SITE } from '../consts';
+import { SITE, NAV } from '../consts';
+import { withBase } from '../lib/url';
+const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="container">
-    <p class="title">{SITE.title}</p>
-    <p>{SITE.contact}</p>
-    <p>{SITE.email}</p>
-    <p class="copy">© {new Date().getFullYear()} {SITE.title}</p>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <p class="foot-title">{SITE.title}</p>
+        <p class="foot-tag">{SITE.tagline}</p>
+      </div>
+
+      <nav class="foot-links" aria-label="바로가기">
+        <span class="foot-head">바로가기</span>
+        <ul>
+          {NAV.map((item) => (
+            <li><a href={withBase(item.href)}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="foot-contact">
+        <span class="foot-head">연락처</span>
+        <p>{SITE.contact}</p>
+        <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <p>© {year} {SITE.title}. All rights reserved.</p>
+      <p class="foot-cred">중앙대학교 · 탈플라스틱 순환경제 융합교육 연구단</p>
+    </div>
   </div>
 </footer>
+
 <style>
-  .site-footer { background: var(--bg-soft); border-top: 1px solid var(--line); margin-top: 64px; padding: 32px 0; color: var(--muted); font-size: .9rem; }
-  .site-footer .title { color: var(--ink); font-weight: 700; }
-  .site-footer p { margin: 4px 0; }
-  .copy { margin-top: 12px; }
+  .site-footer {
+    margin-top: 0;
+    background:
+      radial-gradient(1000px 400px at 15% -10%, rgba(23, 185, 120, 0.16), transparent 60%),
+      linear-gradient(180deg, var(--cau-900), #050f26);
+    color: rgba(255, 255, 255, 0.72);
+    padding: 72px 0 36px;
+    font-size: 0.92rem;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.3fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .foot-title { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; margin: 0 0 8px; }
+  .foot-tag { color: rgba(255, 255, 255, 0.6); margin: 0; max-width: 320px; }
+  .foot-head {
+    display: block; font-family: var(--font-mono); font-size: 0.68rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--eco-400);
+    margin-bottom: 16px;
+  }
+  .foot-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .foot-links a, .foot-contact a { color: rgba(255, 255, 255, 0.72); }
+  .foot-links a:hover, .foot-contact a:hover { color: var(--eco-400); }
+  .foot-contact p { margin: 0 0 8px; line-height: 1.6; }
+  .foot-bottom {
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    padding-top: 28px; color: rgba(255, 255, 255, 0.5); font-size: 0.82rem;
+  }
+  .foot-cred { font-family: var(--font-mono); letter-spacing: 0.02em; }
+  @media (max-width: 720px) {
+    .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-bottom { flex-direction: column; }
+  }
 </style>

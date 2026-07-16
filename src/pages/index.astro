@@ -2,41 +2,290 @@
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import { SITE } from '../consts';
+import { SITE, STATS, STRATEGIES } from '../consts';
 import { withBase } from '../lib/url';
 import { latest } from '../lib/posts';
 import { getCollection } from 'astro:content';
+
 const notices = latest(await getCollection('notices'), 3);
 const news = latest(await getCollection('news'), 3);
 ---
-<BaseLayout title={SITE.title}>
+<BaseLayout title={SITE.title} wide={true}>
+  <!-- ================= HERO ================= -->
   <section class="hero">
-    <h1>{SITE.title}</h1>
-    <p>{SITE.description}</p>
-    <a class="btn" href={withBase('/about')}>사업단 소개 보기</a>
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <p class="eyebrow hero-eyebrow">CAU · Post-Plastic Platform</p>
+      <h1 class="hero-title">
+        플라스틱 이후를 설계하는<br />
+        <span class="hl">순환경제 인재양성</span> 플랫폼
+      </h1>
+      <p class="hero-sub">
+        중앙대학교가 탈플라스틱·자원순환·생분해성 소재 연구와 융합교육으로
+        지속가능한 미래를 만들어갑니다.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href={withBase('/about')}>사업단 소개 <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href={withBase('/notices')}>공지사항 보기</a>
+      </div>
+    </div>
+    <a class="scroll-cue" href="#mission" aria-label="아래로 스크롤">
+      <span></span>
+    </a>
   </section>
 
-  <section class="block">
-    <div class="head"><h2>최신 공지</h2><a href={withBase('/notices')}>전체보기 →</a></div>
-    <div class="grid">
-      {notices.map((p) => <PostCard href={withBase(`/notices/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />)}
+  <!-- ================= MISSION ================= -->
+  <section id="mission" class="section mission">
+    <div class="container mission-grid reveal">
+      <div class="mission-head">
+        <p class="eyebrow">Our Mission</p>
+        <h2 class="section-title">탈플라스틱 전환을<br />이끄는 융합 연구·교육</h2>
+      </div>
+      <div class="mission-body">
+        <p>
+          포스트 플라스틱 허브는 환경·화학공학, 빅데이터·AI, 자원순환 분야의
+          연구팀이 협력하여 플라스틱 저감·재활용·대체소재·ESG 전략을 연구합니다.
+        </p>
+        <p>
+          생성형 AI를 활용해 친환경 대체재를 예측하고, 소비자 행동을 개인화하며,
+          기업의 ESG 전략을 최적화하여 실질적인 순환경제 전환을 가속합니다.
+        </p>
+      </div>
     </div>
   </section>
 
-  <section class="block">
-    <div class="head"><h2>최신 이슈·뉴스</h2><a href={withBase('/news')}>전체보기 →</a></div>
-    <div class="grid">
-      {news.map((p) => <PostCard href={withBase(`/news/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />)}
+  <!-- ================= STATS ================= -->
+  <section class="stats-band">
+    <div class="container stats-grid reveal">
+      {STATS.map((s) => (
+        <div class="stat">
+          <div class="stat-num"><span class="count" data-count={s.value}>0</span>{s.suffix ?? ''}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ================= STRATEGIES ================= -->
+  <section class="section strategy">
+    <div class="container">
+      <div class="strategy-head reveal">
+        <p class="eyebrow">Strategy</p>
+        <h2 class="section-title">AI 기반 3대 추진 전략</h2>
+        <p class="section-lead">데이터와 생성형 AI로 순환경제 전환의 핵심 과제를 해결합니다.</p>
+      </div>
+      <div class="strategy-grid">
+        {STRATEGIES.map((s, i) => (
+          <article class="strat-card reveal" style={`transition-delay:${i * 90}ms`}>
+            <span class="strat-no">STRATEGY {s.no}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+            <span class="strat-line" aria-hidden="true"></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LATEST NOTICES ================= -->
+  <section class="section-sm feed">
+    <div class="container">
+      <div class="feed-head reveal">
+        <div>
+          <p class="eyebrow">Notice</p>
+          <h2 class="section-title">최신 공지·세미나</h2>
+        </div>
+        <a class="feed-more" href={withBase('/notices')}>전체보기 <span aria-hidden="true">→</span></a>
+      </div>
+      {notices.length === 0 ? (
+        <p class="feed-empty">등록된 공지가 없습니다.</p>
+      ) : (
+        <div class="feed-grid reveal">
+          {notices.map((p) => (
+            <PostCard href={withBase(`/notices/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ================= LATEST NEWS ================= -->
+  <section class="section-sm feed feed-alt">
+    <div class="container">
+      <div class="feed-head reveal">
+        <div>
+          <p class="eyebrow">News</p>
+          <h2 class="section-title">최신 이슈·뉴스</h2>
+        </div>
+        <a class="feed-more" href={withBase('/news')}>전체보기 <span aria-hidden="true">→</span></a>
+      </div>
+      {news.length === 0 ? (
+        <p class="feed-empty">등록된 뉴스가 없습니다.</p>
+      ) : (
+        <div class="feed-grid reveal">
+          {news.map((p) => (
+            <PostCard href={withBase(`/news/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ================= CTA BAND ================= -->
+  <section class="cta">
+    <div class="container cta-inner reveal">
+      <div>
+        <h2>함께 만드는 순환경제 생태계</h2>
+        <p>연구 자료와 세미나 정보를 확인하고, 산학 협력에 참여하세요.</p>
+      </div>
+      <a class="btn btn-outline cta-btn" href={withBase('/resources')}>전문정보·자료실 →</a>
     </div>
   </section>
 </BaseLayout>
+
 <style>
-  .hero { background: linear-gradient(135deg, var(--cau-blue), var(--cau-blue-dark)); color: #fff; border-radius: 12px; padding: 56px 32px; text-align: center; }
-  .hero h1 { margin: 0 0 12px; font-size: 2rem; }
-  .hero .btn { background: #fff; color: var(--cau-blue); margin-top: 16px; }
-  .block { margin-top: 48px; }
-  .block .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  /* ---------- HERO ---------- */
+  .hero { position: relative; overflow: hidden; color: #fff; padding: 150px 0 130px; }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(720px 460px at 78% 12%, var(--eco-glow), transparent 60%),
+      radial-gradient(900px 600px at 8% 90%, rgba(21, 84, 192, 0.6), transparent 60%),
+      linear-gradient(160deg, var(--cau-800) 0%, var(--cau-900) 60%, #050f26 100%);
+  }
+  .hero-bg::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+    mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .hero-eyebrow { color: var(--eco-400); animation: rise 0.7s var(--ease) both; }
+  .hero-eyebrow::before { background: var(--eco-400); }
+  .hero-title {
+    font-size: clamp(2.2rem, 5.4vw, 4rem); font-weight: 800; line-height: 1.12;
+    margin: 22px 0 0; letter-spacing: -0.04em; max-width: 15ch;
+    animation: rise 0.7s var(--ease) 0.08s both;
+  }
+  .hero-title .hl {
+    background: linear-gradient(100deg, var(--eco-400), #7ef0c0);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-sub {
+    margin: 24px 0 0; max-width: 46ch; font-size: 1.12rem;
+    color: rgba(255, 255, 255, 0.78); line-height: 1.7;
+    animation: rise 0.7s var(--ease) 0.16s both;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 36px; animation: rise 0.7s var(--ease) 0.24s both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+  .scroll-cue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 1; }
+  .scroll-cue span {
+    display: block; width: 26px; height: 42px; border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 14px; position: relative;
+  }
+  .scroll-cue span::after {
+    content: ""; position: absolute; left: 50%; top: 8px; width: 4px; height: 8px;
+    background: var(--eco-400); border-radius: 2px; transform: translateX(-50%);
+    animation: cue 1.6s infinite;
+  }
+  @keyframes cue { 0% { opacity: 0; transform: translate(-50%, 0); } 40% { opacity: 1; } 80% { opacity: 0; transform: translate(-50%, 14px); } }
+
+  /* ---------- MISSION ---------- */
+  .mission-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: start; }
+  .mission-head { position: relative; padding-left: 22px; }
+  .mission-head::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px; background: var(--eco-500); border-radius: 3px; }
+  .mission-body p { color: var(--ink-soft); font-size: 1.1rem; line-height: 1.85; margin: 0 0 18px; }
+
+  /* ---------- STATS ---------- */
+  .stats-band {
+    background:
+      radial-gradient(700px 300px at 90% 0%, rgba(23, 185, 120, 0.10), transparent 60%),
+      var(--surface-2);
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 60px 0;
+  }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
+  .stat-num { font-family: var(--font-mono); font-weight: 600; font-size: clamp(2.2rem, 4vw, 3rem); color: var(--cau-700); letter-spacing: -0.02em; }
+  .stat-label { margin-top: 6px; color: var(--muted); font-weight: 600; font-size: 0.95rem; }
+
+  /* ---------- STRATEGY ---------- */
+  .strategy-head { text-align: center; max-width: 640px; margin: 0 auto 52px; }
+  .strategy-head .eyebrow { justify-content: center; }
+  .strategy-head .section-lead { margin-left: auto; margin-right: auto; }
+  .strategy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .strat-card {
+    position: relative; overflow: hidden; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 38px 32px 40px; box-shadow: var(--shadow-sm);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .strat-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: rgba(23, 185, 120, 0.4); }
+  .strat-no { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; color: var(--eco-600); }
+  .strat-card h3 { font-size: 1.35rem; margin: 16px 0 12px; color: var(--ink); }
+  .strat-card p { color: var(--ink-soft); line-height: 1.75; margin: 0; }
+  .strat-line { position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--eco-500), var(--cau-600)); transition: width 0.4s var(--ease); }
+  .strat-card:hover .strat-line { width: 100%; }
+
+  /* ---------- FEED ---------- */
+  .feed-alt { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .feed-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 34px; }
+  .feed-more { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+  .feed-more:hover span { display: inline-block; transform: translateX(3px); }
+  .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .feed-empty { color: var(--muted); padding: 40px 0; }
+
+  /* ---------- CTA ---------- */
+  .cta { padding: 0 0 96px; }
+  .cta-inner {
+    display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+    background: linear-gradient(120deg, var(--eco-600), var(--eco-500));
+    border-radius: var(--radius-lg); padding: 48px; color: #04231a;
+    box-shadow: 0 24px 60px rgba(15, 157, 99, 0.28);
+  }
+  .cta-inner h2 { font-size: 1.7rem; color: #04231a; }
+  .cta-inner p { margin: 8px 0 0; color: rgba(4, 35, 26, 0.78); font-weight: 500; }
+  .cta-btn { background: #04231a; color: #fff; border-color: #04231a; }
+  .cta-btn:hover { background: #fff; color: var(--eco-600); border-color: #fff; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .mission-grid { grid-template-columns: 1fr; gap: 28px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+    .strategy-grid, .feed-grid { grid-template-columns: 1fr; }
+    .hero { padding: 120px 0 100px; }
+  }
+  @media (max-width: 560px) {
+    .cta-inner { padding: 34px 28px; }
+  }
 </style>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.14 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // Count-up stats
+  const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+  const countUp = (el: Element) => {
+    const target = Number(el.getAttribute('data-count') || '0');
+    const dur = 1400; const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / dur, 1);
+      el.textContent = String(Math.round(easeOut(p) * target));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const co = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { countUp(e.target); co.unobserve(e.target); }
+    }
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.count').forEach((el) => co.observe(el));
+</script>

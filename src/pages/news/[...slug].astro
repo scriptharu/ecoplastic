@@ -12,17 +12,19 @@ const { Content } = await render(post);
 const dateStr = post.data.date.toISOString().slice(0, 10);
 ---
 <BaseLayout title={post.data.title}>
-  <article>
-    <p class="meta"><span class="cat">{post.data.category}</span> · <time>{dateStr}</time></p>
-    <h1>{post.data.title}</h1>
-    {post.data.thumbnail && <img src={withBase(post.data.thumbnail)} alt="" />}
+  <article class="article">
+    <header class="article-head">
+      <div class="article-meta">
+        <span class="tag tag-eco">{post.data.category}</span>
+        <time datetime={dateStr}>{dateStr}</time>
+      </div>
+      <h1 class="article-title">{post.data.title}</h1>
+    </header>
+    {post.data.thumbnail && <img class="article-hero" src={withBase(post.data.thumbnail)} alt="" />}
     <div class="prose"><Content /></div>
-    {post.data.externalLink && <p><a href={post.data.externalLink} target="_blank" rel="noopener">원문 보기 →</a></p>}
-    <p><a href={withBase('/news')}>← 목록으로</a></p>
+    {post.data.externalLink && (
+      <p class="article-ext"><a class="btn btn-outline" href={post.data.externalLink} target="_blank" rel="noopener">원문 보기 →</a></p>
+    )}
+    <a class="back-link" href={withBase('/news')}>← 목록으로 돌아가기</a>
   </article>
 </BaseLayout>
-<style>
-  .meta { color: var(--muted); }
-  .cat { color: #fff; background: var(--cau-accent); padding: 2px 8px; border-radius: 999px; font-size: .8rem; }
-  .prose { margin: 24px 0; }
-</style>
