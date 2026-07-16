@@ -1,0 +1,64 @@
+# public/admin/config.yml
+backend:
+  name: github
+  repo: OWNER/REPO           # 배포 시 확정
+  branch: main
+  base_url: https://OAUTH-WORKER-DOMAIN   # 배포 시 확정 (Task 11)
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: notices
+    label: "공지사항·세미나·행사"
+    folder: "src/content/notices"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "날짜", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "분류", name: "category", widget: "select", options: ["공지", "세미나", "행사"] }
+      - { label: "썸네일", name: "thumbnail", widget: "image", required: false }
+      - label: "첨부파일"
+        name: "attachments"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "파일명", name: "name", widget: "string" }
+          - { label: "파일", name: "url", widget: "file" }
+      - { label: "임시저장(체크 시 비공개)", name: "draft", widget: "boolean", default: false }
+      - { label: "본문", name: "body", widget: "markdown" }
+
+  - name: news
+    label: "이슈·뉴스"
+    folder: "src/content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "날짜", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "분류", name: "category", widget: "select", options: ["정책", "보고서", "인터뷰", "채용"] }
+      - { label: "썸네일", name: "thumbnail", widget: "image", required: false }
+      - { label: "원문 링크", name: "externalLink", widget: "string", required: false, pattern: ['^https?://', 'http:// 또는 https:// 로 시작하는 전체 주소를 입력하세요'] }
+      - { label: "임시저장(체크 시 비공개)", name: "draft", widget: "boolean", default: false }
+      - { label: "본문", name: "body", widget: "markdown" }
+
+  - name: resources
+    label: "전문정보·자료실"
+    folder: "src/content/resources"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "날짜", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "분류", name: "category", widget: "select", options: ["논문", "자료", "인턴십"] }
+      - label: "첨부파일"
+        name: "attachments"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "파일명", name: "name", widget: "string" }
+          - { label: "파일", name: "url", widget: "file" }
+      - { label: "외부 링크", name: "externalLink", widget: "string", required: false, pattern: ['^https?://', 'http:// 또는 https:// 로 시작하는 전체 주소를 입력하세요'] }
+      - { label: "임시저장(체크 시 비공개)", name: "draft", widget: "boolean", default: false }
+      - { label: "본문", name: "body", widget: "markdown" }

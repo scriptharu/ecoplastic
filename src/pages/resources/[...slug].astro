@@ -1,0 +1,33 @@
+---
+// src/pages/resources/[...slug].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/url';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() {
+  const posts = await getCollection('resources', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateStr = post.data.date.toISOString().slice(0, 10);
+---
+<BaseLayout title={post.data.title}>
+  <article>
+    <p class="meta"><span class="cat">{post.data.category}</span> · <time>{dateStr}</time></p>
+    <h1>{post.data.title}</h1>
+    <div class="prose"><Content /></div>
+    {post.data.attachments && post.data.attachments.length > 0 && (
+      <section class="attach"><h2>첨부파일</h2>
+        <ul>{post.data.attachments.map((a) => <li><a href={withBase(a.url)}>{a.name}</a></li>)}</ul>
+      </section>
+    )}
+    {post.data.externalLink && <p><a href={post.data.externalLink} target="_blank" rel="noopener">링크 열기 →</a></p>}
+    <p><a href={withBase('/resources')}>← 목록으로</a></p>
+  </article>
+</BaseLayout>
+<style>
+  .meta { color: var(--muted); }
+  .cat { color: #fff; background: var(--cau-accent); padding: 2px 8px; border-radius: 999px; font-size: .8rem; }
+  .prose { margin: 24px 0; }
+  .attach { border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
