@@ -1,0 +1,11 @@
+---
+// src/pages/resources/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getCollection } from 'astro:content';
+const posts = await getCollection('resources');
+---
+<BaseLayout title="전문정보·자료실">
+  <h1>전문정보·자료실</h1>
+  <PostList base="/resources" posts={posts} perPage={30} />
+</BaseLayout>

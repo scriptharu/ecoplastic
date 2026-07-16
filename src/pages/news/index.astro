@@ -1,0 +1,11 @@
+---
+// src/pages/news/index.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getCollection } from 'astro:content';
+const posts = await getCollection('news');
+---
+<BaseLayout title="이슈·뉴스">
+  <h1>이슈·뉴스</h1>
+  <PostList base="/news" posts={posts} perPage={30} />
+</BaseLayout>
