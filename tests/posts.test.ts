@@ -28,4 +28,34 @@ describe('posts helpers', () => {
     expect(p.totalPages).toBe(3);
     expect(p.page).toBe(2);
   });
+
+  it('page가 1 미만이면 1로 clamp한다', () => {
+    const p = paginate([1, 2, 3, 4, 5], 0, 2);
+    expect(p.page).toBe(1);
+    expect(p.items).toEqual([1, 2]);
+
+    const pNeg = paginate([1, 2, 3, 4, 5], -3, 2);
+    expect(pNeg.page).toBe(1);
+    expect(pNeg.items).toEqual([1, 2]);
+  });
+
+  it('page가 totalPages를 초과하면 totalPages로 clamp한다', () => {
+    const p = paginate([1, 2, 3, 4, 5], 99, 2);
+    expect(p.page).toBe(3);
+    expect(p.items).toEqual([5]);
+  });
+
+  it('마지막 페이지가 부분적으로 채워진 경우를 처리한다', () => {
+    const p = paginate([1, 2, 3, 4, 5], 3, 2);
+    expect(p.items).toEqual([5]);
+    expect(p.totalPages).toBe(3);
+  });
+
+  it('latest는 slice 하기 전에 draft를 제외한다', () => {
+    const arr = [mk('2026-05-01', true), mk('2026-03-01'), mk('2026-02-01'), mk('2026-01-01')];
+    const out = latest(arr, 2);
+    expect(out).toHaveLength(2);
+    expect(out.some(p => p.data.date.getMonth() === 4)).toBe(false);
+    expect(out.map(p => p.data.date.getMonth())).toEqual([2, 1]);
+  });
 });
