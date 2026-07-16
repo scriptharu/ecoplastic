@@ -1,9 +1,42 @@
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
 import { SITE } from '../consts';
+import { withBase } from '../lib/url';
+import { latest } from '../lib/posts';
+import { getCollection } from 'astro:content';
+const notices = latest(await getCollection('notices'), 3);
+const news = latest(await getCollection('news'), 3);
 ---
 <BaseLayout title={SITE.title}>
-  <h1>{SITE.title}</h1>
-  <p>{SITE.description}</p>
+  <section class="hero">
+    <h1>{SITE.title}</h1>
+    <p>{SITE.description}</p>
+    <a class="btn" href={withBase('/about')}>사업단 소개 보기</a>
+  </section>
+
+  <section class="block">
+    <div class="head"><h2>최신 공지</h2><a href={withBase('/notices')}>전체보기 →</a></div>
+    <div class="grid">
+      {notices.map((p) => <PostCard href={withBase(`/notices/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />)}
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="head"><h2>최신 이슈·뉴스</h2><a href={withBase('/news')}>전체보기 →</a></div>
+    <div class="grid">
+      {news.map((p) => <PostCard href={withBase(`/news/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />)}
+    </div>
+  </section>
 </BaseLayout>
+<style>
+  .hero { background: linear-gradient(135deg, var(--cau-blue), var(--cau-blue-dark)); color: #fff; border-radius: 12px; padding: 56px 32px; text-align: center; }
+  .hero h1 { margin: 0 0 12px; font-size: 2rem; }
+  .hero .btn { background: #fff; color: var(--cau-blue); margin-top: 16px; }
+  .block { margin-top: 48px; }
+  .block .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>
