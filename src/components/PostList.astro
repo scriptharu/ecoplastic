@@ -1,0 +1,42 @@
+---
+// src/components/PostList.astro
+import PostCard from './PostCard.astro';
+import { withBase } from '../lib/url';
+import { publishedOnly, sortByDateDesc, paginate } from '../lib/posts';
+interface Entry { id: string; data: { title: string; date: Date; category: string; thumbnail?: string; draft: boolean } }
+interface Props { base: string; posts: Entry[]; page?: number; perPage?: number; }
+const { base, posts, page = 1, perPage = 9 } = Astro.props;
+const sorted = sortByDateDesc(publishedOnly(posts));
+const { items, page: cur, totalPages } = paginate(sorted, page, perPage);
+---
+{items.length === 0 ? (
+  <p class="empty">등록된 글이 없습니다.</p>
+) : (
+  <div class="grid">
+    {items.map((post) => (
+      <PostCard
+        href={withBase(`${base}/${post.id}`)}
+        title={post.data.title}
+        date={post.data.date}
+        category={post.data.category}
+        thumbnail={post.data.thumbnail}
+      />
+    ))}
+  </div>
+)}
+{totalPages > 1 && (
+  <nav class="pager" aria-label="페이지">
+    {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+      <a class={n === cur ? 'on' : ''} href={withBase(n === 1 ? base : `${base}?page=${n}`)}>{n}</a>
+    ))}
+  </nav>
+)}
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
+  .pager { display: flex; gap: 8px; justify-content: center; margin-top: 28px; }
+  .pager a { padding: 6px 12px; border: 1px solid var(--line); border-radius: 6px; }
+  .pager a.on { background: var(--cau-blue); color: #fff; }
+</style>

@@ -1,0 +1,25 @@
+---
+// src/components/PostCard.astro
+import { withBase } from '../lib/url';
+interface Props { href: string; title: string; date: Date; category: string; thumbnail?: string; }
+const { href, title, date, category, thumbnail } = Astro.props;
+const img = thumbnail ?? '/placeholder.svg';
+const dateStr = date.toISOString().slice(0, 10);
+---
+<a class="card" href={href}>
+  <img src={withBase(img)} alt="" loading="lazy" />
+  <div class="body">
+    <span class="cat">{category}</span>
+    <h3>{title}</h3>
+    <time datetime={dateStr}>{dateStr}</time>
+  </div>
+</a>
+<style>
+  .card { display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: #fff; color: inherit; }
+  .card:hover { text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+  .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--bg-soft); }
+  .body { padding: 14px 16px; }
+  .cat { display: inline-block; font-size: .75rem; color: #fff; background: var(--cau-accent); padding: 2px 8px; border-radius: 999px; }
+  .body h3 { margin: 8px 0 6px; font-size: 1rem; }
+  time { color: var(--muted); font-size: .85rem; }
+</style>
