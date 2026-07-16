@@ -1,0 +1,12 @@
+---
+// src/pages/404.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/url';
+---
+<BaseLayout title="페이지를 찾을 수 없습니다">
+  <div style="text-align:center; padding:64px 0;">
+    <h1>404</h1>
+    <p>요청하신 페이지를 찾을 수 없습니다.</p>
+    <p><a class="btn" href={withBase('/')}>홈으로 돌아가기</a></p>
+  </div>
+</BaseLayout>
