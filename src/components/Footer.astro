@@ -20,11 +20,6 @@ const year = new Date().getFullYear();
           ))}
         </ul>
       </nav>
-
-      <div class="foot-contact">
-        <span class="foot-head">연락처</span>
-        <p>{SITE.contact}</p>
-      </div>
     </div>
 
     <!-- 주관·참여 기관 로고 (담당자: public/logos/*.svg 를 실제 로고 파일로 교체) -->
@@ -57,7 +52,7 @@ const year = new Date().getFullYear();
   }
   .foot-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1.3fr;
+    grid-template-columns: 2fr 1fr;
     gap: 40px;
     padding-bottom: 40px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
@@ -70,9 +65,8 @@ const year = new Date().getFullYear();
     margin-bottom: 16px;
   }
   .foot-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-  .foot-links a, .foot-contact a { color: rgba(255, 255, 255, 0.72); }
-  .foot-links a:hover, .foot-contact a:hover { color: var(--eco-400); }
-  .foot-contact p { margin: 0 0 8px; line-height: 1.6; }
+  .foot-links a { color: rgba(255, 255, 255, 0.72); }
+  .foot-links a:hover { color: var(--eco-400); }
   .foot-logos { padding: 28px 0 4px; }
   .foot-logos ul {
     list-style: none; margin: 0; padding: 0;

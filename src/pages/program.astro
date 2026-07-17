@@ -47,6 +47,20 @@ const outcomes = [
   { value: '매 학기', label: '산학연계 세미나·워크숍' },
   { value: '2권', label: '특성화 교재 발간' },
 ];
+
+// 배출인력 수료기준 (사업계획서 40p — 학위 과정별 이수 요건)
+const gradRequirements = [
+  { area: '전공기초', ms: '필수 교과목 포함 6학점 이상', phd: '필수 교과목 포함 6학점 이상', integ: '필수 교과목 포함 6학점 이상' },
+  { area: '전공심화', ms: '6학점 이상', phd: '6학점 이상', integ: '12학점 이상' },
+  { area: '실무', ms: '산학프로젝트·인턴십 각 1건 필수 이수', phd: '산학프로젝트·인턴십 각 1건 필수 이수', integ: '산학프로젝트·인턴십 각 1건 필수 이수' },
+  { area: '최소 이수학점', ms: '12학점 이상', phd: '12학점 이상', integ: '18학점 이상' },
+  { area: '최대 수혜기간', ms: '4학기', phd: '4학기', integ: '6학기' },
+];
+const gradNotes = [
+  '기초–심화–실무 단계가 연차별로 이어지도록 구성되며, 필수과목(‘탈플라스틱 전과정 이해’·‘폐플라스틱 재활용 및 자원화 기술’)은 양 대학에서 매년 공통 개설합니다.',
+  '수행한 산학프로젝트는 졸업 학위논문에 필수 포함되며, 프로젝트 관련 내용을 포함해야 학위심사가 가능합니다.',
+  '참여 학생의 학위기에는 ‘탈플라스틱 융합기술전공’이 명기됩니다.',
+];
 ---
 <BaseLayout title="교육과정" wide={true}>
   <PageHeader
@@ -102,6 +116,43 @@ const outcomes = [
         </li>
       ))}
     </ol>
+  </section>
+
+  <!-- ===== COMPLETION / 수료기준 ===== -->
+  <section class="section-sm grad-band">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Completion</p>
+        <h2 class="section-title">배출인력 수료기준</h2>
+        <p class="section-lead">학위 과정별 이수 요건을 충족해야 ‘탈플라스틱 융합기술전공’ 수료·학위가 인정됩니다.</p>
+      </div>
+      <div class="grad-wrap reveal">
+        <table class="grad-table">
+          <thead>
+            <tr><th>구분</th><th>석사</th><th>박사</th><th>석·박사 통합</th></tr>
+          </thead>
+          <tbody>
+            {gradRequirements.map((g) => (
+              <tr>
+                <th scope="row">{g.area}</th>
+                {g.ms === g.phd && g.phd === g.integ ? (
+                  <td colspan="3" class="span">{g.ms}</td>
+                ) : (
+                  <Fragment>
+                    <td>{g.ms}</td>
+                    <td>{g.phd}</td>
+                    <td>{g.integ}</td>
+                  </Fragment>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <ul class="grad-notes reveal">
+        {gradNotes.map((n) => <li>{n}</li>)}
+      </ul>
+    </div>
   </section>
 
   <!-- ===== STRATEGY ===== -->
@@ -169,6 +220,27 @@ const outcomes = [
   .sec-head { max-width: 700px; margin-bottom: 36px; }
   .sec-head .section-lead { margin-top: 12px; }
   .tr-note { color: var(--muted); font-size: 0.9rem; margin-top: 28px; line-height: 1.7; }
+
+  /* 수료기준 */
+  .grad-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .grad-wrap { overflow-x: auto; }
+  .grad-table {
+    width: 100%; min-width: 600px; border-collapse: collapse;
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .grad-table th, .grad-table td {
+    padding: 14px 18px; text-align: center; font-size: 0.95rem;
+    border-bottom: 1px solid var(--line); border-right: 1px solid var(--line);
+  }
+  .grad-table th:last-child, .grad-table td:last-child { border-right: 0; }
+  .grad-table thead th { background: var(--cau-700); color: #fff; font-weight: 700; letter-spacing: 0.01em; }
+  .grad-table tbody th { background: var(--surface-2); color: var(--ink); font-weight: 700; text-align: left; white-space: nowrap; }
+  .grad-table tbody td { color: var(--ink-soft); }
+  .grad-table tbody tr:last-child th, .grad-table tbody tr:last-child td { border-bottom: 0; }
+  .grad-notes {
+    list-style: disc; margin: 22px 0 0; padding-left: 20px;
+    color: var(--muted); font-size: 0.9rem; line-height: 1.75; display: grid; gap: 8px;
+  }
 
   /* Track list */
   .track-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: none; }
