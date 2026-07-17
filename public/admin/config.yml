@@ -3,7 +3,7 @@ backend:
   name: github
   repo: scriptharu/ecoplastic
   branch: main
-  base_url: https://OAUTH-WORKER-DOMAIN   # ← 5단계 Cloudflare Worker 배포 후 실제 주소로 교체
+  base_url: https://sveltia-cms-auth.scriptharu.workers.dev
 
 # 사이트가 썸네일·첨부에 withBase()로 base(/ecoplastic/)를 붙이므로, 여기서는 base 없이 /uploads 로 저장
 media_folder: "public/uploads"
