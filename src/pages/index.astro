@@ -1,14 +1,8 @@
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
 import { SITE, STATS, STRATEGIES, TRACKS } from '../consts';
 import { withBase } from '../lib/url';
-import { latest } from '../lib/posts';
-import { getCollection } from 'astro:content';
-
-const notices = latest(await getCollection('notices'), 3);
-const news = latest(await getCollection('news'), 3);
 ---
 <BaseLayout title={SITE.title} wide={true}>
   <!-- ================= HERO ================= -->
@@ -115,60 +109,6 @@ const news = latest(await getCollection('news'), 3);
     </div>
   </section>
 
-  <!-- ================= LATEST NOTICES ================= -->
-  <section class="section-sm feed">
-    <div class="container">
-      <div class="feed-head reveal">
-        <div>
-          <p class="eyebrow">Notice</p>
-          <h2 class="section-title">최신 공지·세미나</h2>
-        </div>
-        <a class="feed-more" href={withBase('/notices')}>전체보기 <span aria-hidden="true">→</span></a>
-      </div>
-      {notices.length === 0 ? (
-        <p class="feed-empty">등록된 공지가 없습니다.</p>
-      ) : (
-        <div class="feed-grid reveal">
-          {notices.map((p) => (
-            <PostCard href={withBase(`/notices/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- ================= LATEST NEWS ================= -->
-  <section class="section-sm feed feed-alt">
-    <div class="container">
-      <div class="feed-head reveal">
-        <div>
-          <p class="eyebrow">News</p>
-          <h2 class="section-title">최신 이슈·뉴스</h2>
-        </div>
-        <a class="feed-more" href={withBase('/news')}>전체보기 <span aria-hidden="true">→</span></a>
-      </div>
-      {news.length === 0 ? (
-        <p class="feed-empty">등록된 뉴스가 없습니다.</p>
-      ) : (
-        <div class="feed-grid reveal">
-          {news.map((p) => (
-            <PostCard href={withBase(`/news/${p.id}`)} title={p.data.title} date={p.data.date} category={p.data.category} thumbnail={p.data.thumbnail} />
-          ))}
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- ================= CTA BAND ================= -->
-  <section class="cta">
-    <div class="container cta-inner reveal">
-      <div>
-        <h2>함께 만드는 순환경제 생태계</h2>
-        <p>연구 자료와 세미나 정보를 확인하고, 산학 협력에 참여하세요.</p>
-      </div>
-      <a class="btn btn-outline cta-btn" href={withBase('/resources')}>전문정보·자료실 →</a>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -277,27 +217,6 @@ const news = latest(await getCollection('news'), 3);
   .strat-line { position: absolute; left: 0; bottom: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--eco-500), var(--cau-600)); transition: width 0.4s var(--ease); }
   .strat-card:hover .strat-line { width: 100%; }
 
-  /* ---------- FEED ---------- */
-  .feed-alt { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .feed-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 34px; }
-  .feed-more { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
-  .feed-more:hover span { display: inline-block; transform: translateX(3px); }
-  .feed-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
-  .feed-empty { color: var(--muted); padding: 40px 0; }
-
-  /* ---------- CTA ---------- */
-  .cta { padding: 0 0 96px; }
-  .cta-inner {
-    display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
-    background: linear-gradient(120deg, var(--eco-600), var(--eco-500));
-    border-radius: var(--radius-lg); padding: 48px; color: #04231a;
-    box-shadow: 0 24px 60px rgba(15, 157, 99, 0.28);
-  }
-  .cta-inner h2 { font-size: 1.7rem; color: #04231a; }
-  .cta-inner p { margin: 8px 0 0; color: rgba(4, 35, 26, 0.78); font-weight: 500; }
-  .cta-btn { background: #04231a; color: #fff; border-color: #04231a; }
-  .cta-btn:hover { background: #fff; color: var(--eco-600); border-color: #fff; }
-
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px) {
     .strategy-grid { grid-template-columns: repeat(2, 1fr); }
@@ -306,12 +225,10 @@ const news = latest(await getCollection('news'), 3);
   @media (max-width: 900px) {
     .mission-grid { grid-template-columns: 1fr; gap: 28px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
-    .feed-grid { grid-template-columns: 1fr; }
     .hero { padding: 120px 0 100px; }
   }
   @media (max-width: 560px) {
     .strategy-grid, .tracks-grid { grid-template-columns: 1fr; }
-    .cta-inner { padding: 34px 28px; }
   }
 </style>
 
