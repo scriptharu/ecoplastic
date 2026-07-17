@@ -53,7 +53,15 @@ html {
   scroll-behavior: smooth;
 }
 
-body { margin: 0; line-height: 1.65; letter-spacing: -0.01em; }
+body {
+  margin: 0;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
+  /* 한글 줄바꿈: 어절(단어) 단위로만 끊어 조사·어미가 홀로 넘어가지 않도록 */
+  word-break: keep-all;
+  /* 긴 영문/URL 등 끊을 수 없는 토큰은 넘치지 않게 예외적으로 분할 */
+  overflow-wrap: break-word;
+}
 
 img { max-width: 100%; height: auto; display: block; }
 
@@ -61,6 +69,9 @@ a { color: var(--cau-700); text-decoration: none; transition: color 0.2s var(--e
 a:hover { color: var(--eco-600); }
 
 h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -0.03em; font-weight: 800; margin: 0; }
+
+/* 제목·본문 고아 줄(마지막 줄에 한 어절만 남는 현상) 완화 — 지원 브라우저에서만 적용, 미지원 시 무시 */
+h1, h2, h3, h4, p, li, figcaption, dd, dt { text-wrap: pretty; }
 
 ::selection { background: var(--eco-400); color: var(--cau-900); }
 
