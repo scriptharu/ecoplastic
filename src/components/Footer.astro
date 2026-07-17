@@ -51,12 +51,13 @@ const year = new Date().getFullYear();
     font-size: 0.92rem;
   }
   .foot-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
+    display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: flex-start;
+    gap: 32px 48px;
     padding-bottom: 40px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
+  .foot-brand { max-width: 440px; }
   .foot-title { color: #fff; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.03em; margin: 0 0 8px; }
   .foot-tag { color: rgba(255, 255, 255, 0.6); margin: 0; max-width: 320px; }
   .foot-head {
@@ -64,7 +65,10 @@ const year = new Date().getFullYear();
     letter-spacing: 0.18em; text-transform: uppercase; color: var(--eco-400);
     margin-bottom: 16px;
   }
-  .foot-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .foot-links ul {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, auto); gap: 12px 44px;
+  }
   .foot-links a { color: rgba(255, 255, 255, 0.72); }
   .foot-links a:hover { color: var(--eco-400); }
   .foot-logos { padding: 28px 0 4px; }
@@ -95,7 +99,7 @@ const year = new Date().getFullYear();
   }
   .foot-cred { font-family: var(--font-mono); letter-spacing: 0.02em; }
   @media (max-width: 720px) {
-    .foot-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-grid { gap: 28px; }
     .foot-bottom { flex-direction: column; }
   }
 </style>
