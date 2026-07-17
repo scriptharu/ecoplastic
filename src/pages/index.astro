@@ -2,7 +2,7 @@
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import { SITE, STATS, STRATEGIES } from '../consts';
+import { SITE, STATS, STRATEGIES, TRACKS } from '../consts';
 import { withBase } from '../lib/url';
 import { latest } from '../lib/posts';
 import { getCollection } from 'astro:content';
@@ -15,14 +15,14 @@ const news = latest(await getCollection('news'), 3);
   <section class="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="container hero-inner">
-      <p class="eyebrow hero-eyebrow">CAU · Post-Plastic Platform</p>
+      <p class="eyebrow hero-eyebrow">CAU · Kumoh — Plastic-Free Tech Hub</p>
       <h1 class="hero-title">
         플라스틱 이후를 설계하는<br />
-        <span class="hl">순환경제 인재양성</span> 플랫폼
+        <span class="hl">탈플라스틱 융합기술</span> 허브
       </h1>
       <p class="hero-sub">
-        중앙대학교가 탈플라스틱·자원순환·생분해성 소재 연구와 융합교육으로
-        지속가능한 미래를 만들어갑니다.
+        중앙대학교와 국립금오공과대학교가 수도권–경북권 이중거점으로 손잡고,
+        소재·공정·정책·스마트기술을 아우르는 탈플라스틱 전주기 전문인력을 양성합니다.
       </p>
       <div class="hero-cta">
         <a class="btn btn-primary" href={withBase('/about')}>사업단 소개 <span aria-hidden="true">→</span></a>
@@ -39,16 +39,18 @@ const news = latest(await getCollection('news'), 3);
     <div class="container mission-grid reveal">
       <div class="mission-head">
         <p class="eyebrow">Our Mission</p>
-        <h2 class="section-title">탈플라스틱 전환을<br />이끄는 융합 연구·교육</h2>
+        <h2 class="section-title">탈플라스틱 전환을<br />이끄는 이중거점 융합교육</h2>
       </div>
       <div class="mission-body">
         <p>
-          포스트 플라스틱 허브는 환경·화학공학, 빅데이터·AI, 자원순환 분야의
-          연구팀이 협력하여 플라스틱 저감·재활용·대체소재·ESG 전략을 연구합니다.
+          수도권 거점 <strong>중앙대학교</strong>는 첨단 연구 인프라를 기반으로 순환형
+          플라스틱 원천기술과 특수 제조기술 교육을, 경북권 거점 <strong>국립금오공과대학교</strong>는
+          구미·포항 산업단지와 연계한 현장 실증·기업 연계 교육을 담당합니다.
         </p>
         <p>
-          생성형 AI를 활용해 친환경 대체재를 예측하고, 소비자 행동을 개인화하며,
-          기업의 ESG 전략을 최적화하여 실질적인 순환경제 전환을 가속합니다.
+          플라스틱 저감부터 대체소재 개발, 재활용·자원화, 위해성 평가까지 전주기를
+          아우르는 5개 트랙을 운영하여, 석·박사급 전문인력 140명을 양성하고
+          지속가능한 순환경제 생태계를 구축합니다.
         </p>
       </div>
     </div>
@@ -66,13 +68,39 @@ const news = latest(await getCollection('news'), 3);
     </div>
   </section>
 
+  <!-- ================= TRACKS ================= -->
+  <section class="section tracks">
+    <div class="container">
+      <div class="tracks-head reveal">
+        <p class="eyebrow">Curriculum</p>
+        <h2 class="section-title">5개 융합기술 트랙</h2>
+        <p class="section-lead">탈플라스틱 전주기를 다섯 갈래로 나누어 소재부터 정책·스마트기술까지 전문 인재를 양성합니다.</p>
+      </div>
+      <div class="tracks-grid">
+        {TRACKS.map((t, i) => (
+          <article class="track-card reveal" style={`transition-delay:${i * 70}ms`}>
+            <div class="track-top">
+              <span class="track-no">TRACK {t.no}</span>
+              <span class="track-univ">{t.univ}</span>
+            </div>
+            <h3>{t.title}</h3>
+            <p>{t.desc}</p>
+          </article>
+        ))}
+      </div>
+      <div class="tracks-more reveal">
+        <a class="btn btn-ghost" href={withBase('/program')}>교육과정 자세히 보기 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= STRATEGIES ================= -->
   <section class="section strategy">
     <div class="container">
       <div class="strategy-head reveal">
         <p class="eyebrow">Strategy</p>
-        <h2 class="section-title">AI 기반 3대 추진 전략</h2>
-        <p class="section-lead">데이터와 생성형 AI로 순환경제 전환의 핵심 과제를 해결합니다.</p>
+        <h2 class="section-title">4대 사업 추진 방향</h2>
+        <p class="section-lead">교육·산학·성과확산·글로벌 협력의 네 축으로 탈플라스틱 인재양성을 추진합니다.</p>
       </div>
       <div class="strategy-grid">
         {STRATEGIES.map((s, i) => (
@@ -210,11 +238,32 @@ const news = latest(await getCollection('news'), 3);
   .stat-num { font-family: var(--font-mono); font-weight: 600; font-size: clamp(2.2rem, 4vw, 3rem); color: var(--cau-700); letter-spacing: -0.02em; }
   .stat-label { margin-top: 6px; color: var(--muted); font-weight: 600; font-size: 0.95rem; }
 
+  /* ---------- TRACKS ---------- */
+  .tracks { background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .tracks-head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
+  .tracks-head .eyebrow { justify-content: center; }
+  .tracks-head .section-lead { margin-left: auto; margin-right: auto; }
+  .tracks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .track-card {
+    position: relative; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 32px 28px 30px; box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--eco-500);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .track-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .track-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .track-no { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; color: var(--eco-600); }
+  .track-univ { font-size: 0.72rem; font-weight: 700; color: var(--cau-700); background: rgba(21, 84, 192, 0.08); padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .track-card h3 { font-size: 1.25rem; margin: 14px 0 12px; color: var(--ink); }
+  .track-card p { color: var(--ink-soft); line-height: 1.72; margin: 0; font-size: 0.97rem; }
+  .tracks-more { text-align: center; margin-top: 40px; }
+
   /* ---------- STRATEGY ---------- */
   .strategy-head { text-align: center; max-width: 640px; margin: 0 auto 52px; }
   .strategy-head .eyebrow { justify-content: center; }
   .strategy-head .section-lead { margin-left: auto; margin-right: auto; }
-  .strategy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .strategy-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
   .strat-card {
     position: relative; overflow: hidden; background: var(--surface);
     border: 1px solid var(--line); border-radius: var(--radius-lg);
@@ -250,13 +299,18 @@ const news = latest(await getCollection('news'), 3);
   .cta-btn:hover { background: #fff; color: var(--eco-600); border-color: #fff; }
 
   /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px) {
+    .strategy-grid { grid-template-columns: repeat(2, 1fr); }
+    .tracks-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 900px) {
     .mission-grid { grid-template-columns: 1fr; gap: 28px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
-    .strategy-grid, .feed-grid { grid-template-columns: 1fr; }
+    .feed-grid { grid-template-columns: 1fr; }
     .hero { padding: 120px 0 100px; }
   }
   @media (max-width: 560px) {
+    .strategy-grid, .tracks-grid { grid-template-columns: 1fr; }
     .cta-inner { padding: 34px 28px; }
   }
 </style>

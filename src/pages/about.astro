@@ -2,67 +2,237 @@
 // src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { SITE } from '../consts';
+import { withBase } from '../lib/url';
 
-const teams = [
-  { name: '환경·화학공학 연구팀', desc: '생분해성·재활용 대체소재 개발과 플라스틱 저감 공정을 연구합니다.', meta: '교수 11 · 학생 19' },
-  { name: '빅데이터·AI 분석 연구팀', desc: '생성형 AI로 대체재를 예측하고 소비자 행동 데이터를 분석합니다.', meta: '교수 1 · 학생 3' },
-  { name: '자원순환 연구팀', desc: '자원순환 체계와 기업 ESG 전략 최적화를 연구합니다.', meta: '교수 5 · 학생 5' },
+// 이중거점(Dual-Hub) 컨소시엄
+const hubs = [
+  {
+    tag: '수도권 거점 · 주관',
+    name: '중앙대학교',
+    role: '첨단 연구 허브',
+    points: [
+      '순환형 플라스틱 원천기술과 특수 제조기술 융합 교육 주도',
+      'AI·LCA·글로벌 규제 대응 교육·연구 선도',
+      '수도권 대기업·스타트업·연구기관 연계로 산학·취업 파급효과 극대화',
+    ],
+    tracks: '재료·대체소재 / 재활용·자원화 공정 / 스마트 순환기술',
+  },
+  {
+    tag: '경북권 거점 · 참여',
+    name: '국립금오공과대학교',
+    role: '산업 현장 허브',
+    points: [
+      '구미 국가산단·대구경북권 플라스틱 가공·재활용 기업과 직접 연계',
+      '현장 실습·인턴십·산학프로젝트 중심의 실무형 교육 제공',
+      '지역 중소·중견기업 애로기술 해결 및 재직자 재교육 지원',
+    ],
+    tracks: '정책·순환시스템 / 융합형 탈플라스틱',
+  },
+];
+
+// 참여 학과 (사업계획서 요약서 기준)
+const depts = [
+  { univ: '중앙대학교', list: ['화학공학과', '첨단소재부품학과', '지능형에너지산업융합학과'] },
+  { univ: '국립금오공과대학교', list: ['응용화학과', '화학공학과', '고분자공학과'] },
+];
+
+// 추진 배경·필요성
+const backgrounds = [
+  {
+    title: '기존 재활용의 한계',
+    desc: '기계적 재활용은 다운사이클링·복합재 처리 불가로 재활용률이 9%에 그칩니다. 분자 수준에서 자원을 재설계하는 순환형 탈플라스틱 기술이 필요합니다.',
+  },
+  {
+    title: '글로벌 환경규제 강화',
+    desc: 'UN 플라스틱 협약, EU CBAM, 미국 CCA·EPR 등 전 주기 감축·재활용 의무화가 확산되어, 대응하지 못하면 수출 시장 접근이 어려워집니다.',
+  },
+  {
+    title: '석유화학 산업 위기',
+    desc: '중국발 공급과잉과 수요 정체로 국내 석유화학 가동률이 급락하고 있습니다. 고부가·순환형 산업으로의 전환과 인적 기반 구축이 시급합니다.',
+  },
+  {
+    title: '지역 산업·고용 대응',
+    desc: '설비 감축형 구조조정을 넘어 기존 인력의 업스킬링·리스킬링과 신산업 일자리 창출을 위해, 대학–산업 협력형 인재개발체계가 요구됩니다.',
+  },
+];
+
+// 기대효과 (4개 분야)
+const impacts = [
+  { area: '교육', desc: '탈플라스틱 융합기술 전문인력 양성과 교과·비교과 통합 교육 체계 정립, 오픈코스 플랫폼 개방' },
+  { area: '연구', desc: '대체소재·재활용공정·스마트 순환기술 개발과 산학공동연구·기술이전, 논문·특허·정책제안으로 확산' },
+  { area: '산업·취업', desc: '수도권–영남권 연계 취업 네트워크 구축과 현장 맞춤형 인턴십·캡스톤을 통한 고용 연계 강화' },
+  { area: '사회·환경', desc: '탈플라스틱 문화 확산과 지속가능한 순환경제 실현, ESG·LCA 기반 정책 인재 양성' },
 ];
 ---
-<BaseLayout title="About" wide={true}>
+<BaseLayout title="사업소개" wide={true}>
   <PageHeader
     eyebrow="About"
     title="사업단 소개"
-    description={SITE.tagline + ' (중앙대학교)'}
+    description="중앙대학교·국립금오공과대학교가 함께하는 환경분야 특성화대학원 — 탈플라스틱 융합기술 허브"
   />
 
-  <section class="section container about">
+  <!-- ===== VISION ===== -->
+  <section class="section container">
     <div class="about-intro reveal">
       <p class="eyebrow">Vision</p>
-      <h2 class="section-title">지속가능한 미래를 위한<br />순환경제 융합 인재양성</h2>
+      <h2 class="section-title">플라스틱 이후를 설계하는<br />탈플라스틱 전주기 인재양성</h2>
       <p class="about-lead">
-        중앙대학교 포스트 플라스틱 허브는 탈플라스틱·순환경제 분야의 융합 인재를
-        양성하고, 생분해성 소재·자원순환·ESG 전략 연구를 통해 지속가능한 미래에
-        기여합니다.
+        탈플라스틱 융합기술 허브는 소재·공정·정책·스마트기술을 아우르는 융합형 교육모델을 확립하고,
+        수도권(중앙대)–비수도권(금오공대) 이중거점 네트워크를 기반으로 산업체·연구기관·지자체와
+        연계한 취업·창업 생태계를 조성합니다. 5년간 석·박사급 전문인력 140명 양성을 목표로 합니다.
       </p>
     </div>
+  </section>
 
-    <div class="teams reveal">
-      <p class="eyebrow">Research Teams</p>
-      <h3 class="teams-title">참여 연구팀</h3>
-      <div class="teams-grid">
-        {teams.map((t) => (
-          <article class="team-card">
-            <h4>{t.name}</h4>
-            <p>{t.desc}</p>
-            <span class="team-meta">{t.meta}</span>
+  <!-- ===== DUAL-HUB CONSORTIUM ===== -->
+  <section class="section-sm hubs-band">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Dual-Hub Consortium</p>
+        <h2 class="section-title">이중거점 컨소시엄</h2>
+        <p class="section-lead">첨단 연구의 수도권 거점과 산업 현장의 경북권 거점이 하나의 전공으로 연결됩니다.</p>
+      </div>
+      <div class="hubs-grid">
+        {hubs.map((h) => (
+          <article class="hub-card reveal">
+            <span class="hub-tag">{h.tag}</span>
+            <h3>{h.name}</h3>
+            <p class="hub-role">{h.role}</p>
+            <ul class="hub-points">
+              {h.points.map((p) => <li>{p}</li>)}
+            </ul>
+            <p class="hub-tracks"><span>운영 트랙</span>{h.tracks}</p>
           </article>
         ))}
       </div>
     </div>
+  </section>
 
-    <p class="note">※ 위 내용은 예시이며, 담당자가 실제 사업단 소개·교수진·연구팀 정보로 교체합니다.</p>
+  <!-- ===== DEPARTMENTS ===== -->
+  <section class="section container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Departments</p>
+      <h2 class="section-title">참여 학과</h2>
+    </div>
+    <div class="dept-grid reveal">
+      {depts.map((d) => (
+        <div class="dept-col">
+          <h4>{d.univ}</h4>
+          <ul>
+            {d.list.map((name) => <li>{name}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== BACKGROUND ===== -->
+  <section class="section-sm bg-band">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Why Now</p>
+        <h2 class="section-title">추진 배경과 필요성</h2>
+      </div>
+      <div class="bg-grid">
+        {backgrounds.map((b, i) => (
+          <article class="bg-card reveal" style={`transition-delay:${i * 70}ms`}>
+            <span class="bg-no">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{b.title}</h3>
+            <p>{b.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== IMPACT ===== -->
+  <section class="section container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Impact</p>
+      <h2 class="section-title">기대효과</h2>
+    </div>
+    <div class="impact-grid reveal">
+      {impacts.map((m) => (
+        <article class="impact-card">
+          <span class="impact-area">{m.area}</span>
+          <p>{m.desc}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="about-cta reveal">
+      <a class="btn btn-primary" href={withBase('/program')}>교육과정·트랙 자세히 보기 <span aria-hidden="true">→</span></a>
+    </div>
+
+    <p class="note">※ 교수진 명단·연락처·정확한 주소 등 세부 정보는 담당자가 실제 내용으로 교체합니다.</p>
   </section>
 </BaseLayout>
 
 <style>
-  .about { padding-top: 80px; padding-bottom: 96px; }
-  .about-intro { max-width: 720px; margin-bottom: 72px; }
-  .about-lead { margin-top: 22px; color: var(--ink-soft); font-size: 1.15rem; line-height: 1.85; }
-  .teams-title { font-size: 1.7rem; margin-top: 14px; margin-bottom: 30px; color: var(--ink); }
-  .teams-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .team-card {
+  .about-intro { max-width: 760px; }
+  .about-lead { margin-top: 22px; color: var(--ink-soft); font-size: 1.12rem; line-height: 1.85; }
+
+  .sec-head { max-width: 680px; margin-bottom: 34px; }
+  .sec-head .section-lead { margin-top: 12px; }
+
+  /* Dual-Hub */
+  .hubs-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .hubs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .hub-card {
     background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
-    padding: 30px 28px; box-shadow: var(--shadow-sm);
+    padding: 34px 32px; box-shadow: var(--shadow-sm); border-top: 3px solid var(--cau-600);
     transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
   }
-  .team-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-  .team-card h4 { font-size: 1.15rem; color: var(--ink); margin-bottom: 12px; }
-  .team-card p { color: var(--ink-soft); line-height: 1.7; margin: 0 0 18px; }
-  .team-meta { font-family: var(--font-mono); font-size: 0.78rem; color: var(--eco-600); font-weight: 600; }
-  .note { color: var(--muted); font-size: 0.9rem; margin-top: 48px; }
-  @media (max-width: 820px) { .teams-grid { grid-template-columns: 1fr; } }
+  .hub-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+  .hub-tag { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: var(--eco-600); }
+  .hub-card h3 { font-size: 1.5rem; margin: 12px 0 4px; color: var(--ink); }
+  .hub-role { color: var(--cau-700); font-weight: 700; margin: 0 0 18px; }
+  .hub-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .hub-points li { position: relative; padding-left: 20px; color: var(--ink-soft); line-height: 1.65; }
+  .hub-points li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--eco-500); }
+  .hub-tracks { margin: 22px 0 0; padding-top: 18px; border-top: 1px dashed var(--line); color: var(--ink); font-weight: 600; font-size: 0.95rem; }
+  .hub-tracks span { display: block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+
+  /* Departments */
+  .dept-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px; }
+  .dept-col { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 28px 30px; }
+  .dept-col h4 { font-size: 1.15rem; color: var(--ink); margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .dept-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .dept-col li { color: var(--ink-soft); padding-left: 18px; position: relative; }
+  .dept-col li::before { content: "›"; position: absolute; left: 0; color: var(--eco-600); font-weight: 700; }
+
+  /* Background */
+  .bg-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .bg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .bg-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 30px 30px 32px; box-shadow: var(--shadow-sm);
+  }
+  .bg-no { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--eco-500); }
+  .bg-card h3 { font-size: 1.2rem; margin: 8px 0 12px; color: var(--ink); }
+  .bg-card p { color: var(--ink-soft); line-height: 1.75; margin: 0; }
+
+  /* Impact */
+  .impact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .impact-card {
+    display: flex; gap: 18px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px 26px;
+  }
+  .impact-area {
+    flex: none; min-width: 74px; text-align: center;
+    font-weight: 700; font-size: 0.92rem; color: #fff;
+    background: linear-gradient(120deg, var(--eco-600), var(--eco-500));
+    padding: 7px 12px; border-radius: 20px;
+  }
+  .impact-card p { margin: 3px 0 0; color: var(--ink-soft); line-height: 1.7; }
+
+  .about-cta { margin-top: 48px; }
+  .note { color: var(--muted); font-size: 0.9rem; margin-top: 40px; }
+
+  @media (max-width: 820px) {
+    .hubs-grid, .dept-grid, .bg-grid, .impact-grid { grid-template-columns: 1fr; }
+    .impact-card { flex-direction: column; gap: 12px; }
+  }
 </style>
 
 <script>
