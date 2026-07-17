@@ -24,8 +24,18 @@ const year = new Date().getFullYear();
       <div class="foot-contact">
         <span class="foot-head">연락처</span>
         <p>{SITE.contact}</p>
-        <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
       </div>
+    </div>
+
+    <!-- 주관·참여 기관 로고 (담당자: public/logos/*.svg 를 실제 로고 파일로 교체) -->
+    <div class="foot-logos" aria-label="주관·참여 기관">
+      <span class="foot-head">주관 · 참여 기관</span>
+      <ul>
+        <li><img src={withBase('/logos/ministry.svg')} alt="기후에너지환경부" loading="lazy" /></li>
+        <li><img src={withBase('/logos/keiti.png')} alt="한국환경산업기술원" loading="lazy" /></li>
+        <li><img src={withBase('/logos/cau.png')} alt="중앙대학교" loading="lazy" /></li>
+        <li><img src={withBase('/logos/kit.png')} alt="국립금오공과대학교" loading="lazy" /></li>
+      </ul>
     </div>
 
     <div class="foot-bottom">
@@ -63,9 +73,31 @@ const year = new Date().getFullYear();
   .foot-links a, .foot-contact a { color: rgba(255, 255, 255, 0.72); }
   .foot-links a:hover, .foot-contact a:hover { color: var(--eco-400); }
   .foot-contact p { margin: 0 0 8px; line-height: 1.6; }
+  .foot-logos { padding: 28px 0 4px; }
+  .foot-logos ul {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+  }
+  /* 모든 칩을 가장 넓은 로고(기후에너지환경부) 기준 고정 폭으로 통일 */
+  .foot-logos li {
+    display: flex; align-items: center; justify-content: center;
+    box-sizing: border-box; width: 168px; height: 50px; padding: 6px 12px;
+    background: #fff; border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+  }
+  /* 로고를 칩 내부 여백 안에서 비율 유지한 채 최대한 채움 */
+  .foot-logos img {
+    width: 100%; height: 100%;
+    object-fit: contain; display: block;
+  }
+  @media (max-width: 480px) {
+    .foot-logos ul { gap: 10px; }
+    .foot-logos li { width: 140px; height: 44px; padding: 5px 10px; }
+  }
   .foot-bottom {
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
     padding-top: 28px; color: rgba(255, 255, 255, 0.5); font-size: 0.82rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12); margin-top: 28px;
   }
   .foot-cred { font-family: var(--font-mono); letter-spacing: 0.02em; }
   @media (max-width: 720px) {

@@ -7,7 +7,6 @@ export const SITE = {
     '탈플라스틱 전주기 전문인력을 양성하는 중앙대학교·국립금오공과대학교 공동 특성화대학원 — 소재·공정·정책·스마트기술을 아우르는 융합 교육 플랫폼',
   // 이중거점: 수도권(중앙대) · 경북권(금오공대)
   contact: '서울 동작구 흑석로 84 중앙대학교 · 경북 구미시 대학로 61 국립금오공과대학교',
-  email: 'contact@example.ac.kr',
 };
 
 export type NavItem = { label: string; href: string };

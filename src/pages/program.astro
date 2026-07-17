@@ -90,7 +90,6 @@ const outcomes = [
                         <div class="course-head">
                           <span class={`c-type c-type--${c.type === '전필' ? 'req' : 'opt'}`}>{c.type}</span>
                           <span class="c-name">{c.name}</span>
-                          <span class="c-meta">{c.credits === null ? '-' : `${c.credits}학점`} · {c.period}</span>
                         </div>
                         <p class="c-desc">{c.desc}</p>
                       </li>
@@ -103,7 +102,6 @@ const outcomes = [
         </li>
       ))}
     </ol>
-    <p class="tr-note">※ 학생은 소속과 관계없이 핵심 교과목을 수강할 수 있으며, 산학 공동 세미나·융합 프로젝트·공동 워크숍 등 다학제 비교과 활동에 참여합니다.</p>
   </section>
 
   <!-- ===== STRATEGY ===== -->
@@ -163,7 +161,6 @@ const outcomes = [
           </div>
         ))}
       </div>
-      <p class="tr-note">※ 위 수치는 사업계획서 기준 목표이며, 배포 시 담당자가 실제 실적으로 갱신합니다.</p>
     </div>
   </section>
 </BaseLayout>
@@ -232,7 +229,6 @@ const outcomes = [
   .c-type--req { color: #fff; background: var(--eco-500); }
   .c-type--opt { color: var(--eco-700); background: rgba(15, 157, 99, 0.12); }
   .c-name { font-weight: 700; color: var(--ink); font-size: 1rem; }
-  .c-meta { margin-left: auto; font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); white-space: nowrap; }
   .c-desc { margin: 8px 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
 
   /* Strategy */
@@ -289,7 +285,6 @@ const outcomes = [
     .tr-caret { order: -1; align-self: flex-start; margin-left: auto; }
     .tr-panel-inner { padding: 6px 20px 24px; }
     .course { padding: 12px 14px; }
-    .c-meta { margin-left: 0; flex-basis: 100%; }
     .out-grid { grid-template-columns: 1fr; }
   }
 
