@@ -1,0 +1,317 @@
+---
+// src/pages/program.astro — 교육과정 (5개 트랙 · 추진방향 · 로드맵 · 성과목표)
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { TRACKS, STRATEGIES } from '../consts';
+
+// 5년 단계별 로드맵 (사업계획서 연차별 목표 기준)
+const roadmap = [
+  {
+    year: '1년차',
+    stage: '교육 기반 구축',
+    title: '프로그램 개설 및 교육 인프라 구축',
+    targets: ['탈플라스틱 융합기술전공 개설 (5개 트랙)', '개편·신규 교과목 10건 이상', '참여 학생 27명 · 산학 MOU 10건'],
+  },
+  {
+    year: '2년차',
+    stage: '시범 운영',
+    title: '시범교육 및 산학 연계형 프로젝트 운영',
+    targets: ['현장실습·인턴십 제도화', '캡스톤 프로젝트 10건 운영', '산학프로젝트 참여기업 15개 · 실습생 50명'],
+  },
+  {
+    year: '3년차',
+    stage: '성과 확산',
+    title: '성과확산 및 교육 품질 고도화',
+    targets: ['산학연계 세미나 정례화', '글로벌 연수 프로그램(UCSD·UNSW 등) 개시', '해외연수 10명 이상 · 취업률 75% 이상'],
+  },
+  {
+    year: '4년차',
+    stage: '고도화·확산',
+    title: '전국 확산형 교육모델 확립',
+    targets: ['교과·비교과 오픈코스 공개', 'LCA·ESG 기반 산업정책연계 과정 운영', '참여 학생 80명 · 산학 네트워크 누적 50기관'],
+  },
+  {
+    year: '5년차',
+    stage: '자립·지속',
+    title: '자립형 지속운영체계 확립',
+    targets: ['탈플라스틱 전문대학원 자립모델 구축', '후속 국책사업·산학기금 연계', '졸업생 135명 누적 · 취업률 80% 이상'],
+  },
+];
+
+// 주요 성과목표 (연간)
+const outcomes = [
+  { value: 'SCI 5편+', label: '국제 논문 게재 / 년' },
+  { value: '특허 2건+', label: '출원 / 년 (등록 1건+)' },
+  { value: '3건+', label: '산학협력 프로젝트 / 년' },
+  { value: '10명+', label: '인턴십 참여 / 년' },
+  { value: '매 학기', label: '산학연계 세미나·워크숍' },
+  { value: '2권', label: '특성화 교재 발간' },
+];
+---
+<BaseLayout title="교육과정" wide={true}>
+  <PageHeader
+    eyebrow="Curriculum"
+    title="교육과정"
+    description="탈플라스틱 전주기를 아우르는 5개 융합기술 트랙과 4대 추진 방향, 5년 단계별 로드맵"
+  />
+
+  <!-- ===== TRACKS ===== -->
+  <section class="section container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">5 Tracks</p>
+      <h2 class="section-title">5개 융합기술 트랙</h2>
+      <p class="section-lead">각 트랙은 운영 대학의 강점에 맞춰 설계되며, 모든 참여 대학이 교과목·비교과·오픈코스를 공유합니다.</p>
+    </div>
+    <ol class="track-list reveal">
+      {TRACKS.map((t, i) => (
+        <li class="track-row">
+          <button type="button" class="tr-head" aria-expanded="false" aria-controls={`track-panel-${i}`}>
+            <span class="tr-no">{t.no}</span>
+            <div class="tr-body">
+              <div class="tr-top">
+                <h3>{t.title} 트랙</h3>
+                <span class="tr-univ">{t.univ}</span>
+              </div>
+              <p>{t.desc}</p>
+              <span class="tr-cta">교과목 보기</span>
+            </div>
+            <svg class="tr-caret" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div id={`track-panel-${i}`} class="tr-panel" hidden>
+            <div class="tr-panel-inner">
+              {t.courses.map((g) => (
+                <div class="cg">
+                  <h4 class="cg-title">{g.group}</h4>
+                  <ul class="course-list">
+                    {g.courses.map((c) => (
+                      <li class="course">
+                        <div class="course-head">
+                          <span class={`c-type c-type--${c.type === '전필' ? 'req' : 'opt'}`}>{c.type}</span>
+                          <span class="c-name">{c.name}</span>
+                          <span class="c-meta">{c.credits === null ? '-' : `${c.credits}학점`} · {c.period}</span>
+                        </div>
+                        <p class="c-desc">{c.desc}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="tr-note">※ 학생은 소속과 관계없이 핵심 교과목을 수강할 수 있으며, 산학 공동 세미나·융합 프로젝트·공동 워크숍 등 다학제 비교과 활동에 참여합니다.</p>
+  </section>
+
+  <!-- ===== STRATEGY ===== -->
+  <section class="section-sm strat-band">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Directions</p>
+        <h2 class="section-title">4대 사업 추진 방향</h2>
+      </div>
+      <div class="strat-grid">
+        {STRATEGIES.map((s) => (
+          <article class="strat-item reveal">
+            <span class="strat-no">{s.no}</span>
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ROADMAP ===== -->
+  <section class="section container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Roadmap</p>
+      <h2 class="section-title">5년 단계별 로드맵</h2>
+      <p class="section-lead">교육 기반 구축(1단계)에서 자립형 지속운영체계 확립(2단계)까지 단계적으로 추진합니다.</p>
+    </div>
+    <div class="timeline reveal">
+      {roadmap.map((r) => (
+        <article class="tl-item">
+          <div class="tl-marker"><span>{r.year}</span></div>
+          <div class="tl-card">
+            <span class="tl-stage">{r.stage}</span>
+            <h3>{r.title}</h3>
+            <ul>
+              {r.targets.map((x) => <li>{x}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== OUTCOMES ===== -->
+  <section class="section-sm out-band">
+    <div class="container">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Targets</p>
+        <h2 class="section-title">주요 성과목표</h2>
+      </div>
+      <div class="out-grid reveal">
+        {outcomes.map((o) => (
+          <div class="out-card">
+            <div class="out-value">{o.value}</div>
+            <div class="out-label">{o.label}</div>
+          </div>
+        ))}
+      </div>
+      <p class="tr-note">※ 위 수치는 사업계획서 기준 목표이며, 배포 시 담당자가 실제 실적으로 갱신합니다.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sec-head { max-width: 700px; margin-bottom: 36px; }
+  .sec-head .section-lead { margin-top: 12px; }
+  .tr-note { color: var(--muted); font-size: 0.9rem; margin-top: 28px; line-height: 1.7; }
+
+  /* Track list */
+  .track-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: none; }
+  .track-row {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm); overflow: hidden;
+    transition: box-shadow 0.25s var(--ease);
+  }
+  .track-row:hover { box-shadow: var(--shadow-md); }
+  .track-row:has(.tr-head[aria-expanded="true"]) { box-shadow: var(--shadow-md); }
+  .tr-head {
+    display: flex; gap: 24px; align-items: flex-start; width: 100%; text-align: left;
+    background: none; border: 0; margin: 0; padding: 26px 30px; cursor: pointer; color: inherit; font: inherit;
+    transition: background 0.2s var(--ease);
+  }
+  .tr-head:hover { background: var(--surface-2); }
+  .tr-head:focus-visible { outline: 2px solid var(--eco-500); outline-offset: -3px; }
+  .tr-no {
+    flex: none; font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem;
+    color: var(--eco-500); line-height: 1.2; min-width: 44px;
+  }
+  .tr-body { flex: 1; }
+  .tr-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .tr-top h3 { font-size: 1.25rem; color: var(--ink); margin: 0; }
+  .tr-univ { font-size: 0.74rem; font-weight: 700; color: var(--cau-700); background: rgba(21, 84, 192, 0.08); padding: 4px 11px; border-radius: 20px; white-space: nowrap; }
+  .tr-body p { margin: 10px 0 0; color: var(--ink-soft); line-height: 1.75; }
+  .tr-cta {
+    display: inline-block; margin-top: 12px; font-size: 0.82rem; font-weight: 700;
+    color: var(--eco-600); font-family: var(--font-mono); letter-spacing: 0.02em;
+  }
+  .tr-caret {
+    flex: none; align-self: center; color: var(--muted);
+    transition: transform 0.3s var(--ease), color 0.2s var(--ease);
+  }
+  .tr-head[aria-expanded="true"] .tr-caret { transform: rotate(180deg); color: var(--eco-600); }
+  .tr-head[aria-expanded="true"] .tr-cta { color: var(--eco-500); }
+
+  /* Course panel */
+  .tr-panel { border-top: 1px solid var(--line); }
+  .tr-panel[hidden] { display: none; }
+  .tr-panel-inner { padding: 8px 30px 30px; display: grid; gap: 24px; }
+  .cg { display: grid; gap: 12px; }
+  .cg-title {
+    font-size: 0.82rem; font-weight: 700; color: var(--eco-700); margin: 20px 0 0;
+    letter-spacing: 0.04em; display: flex; align-items: center; gap: 10px;
+  }
+  .cg-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .course-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .course {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px;
+    padding: 14px 18px;
+  }
+  .course-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .c-type {
+    flex: none; font-size: 0.68rem; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+    font-family: var(--font-mono); letter-spacing: 0.03em;
+  }
+  .c-type--req { color: #fff; background: var(--eco-500); }
+  .c-type--opt { color: var(--eco-700); background: rgba(15, 157, 99, 0.12); }
+  .c-name { font-weight: 700; color: var(--ink); font-size: 1rem; }
+  .c-meta { margin-left: auto; font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); white-space: nowrap; }
+  .c-desc { margin: 8px 0 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.7; }
+
+  /* Strategy */
+  .strat-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .strat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .strat-item {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 30px 30px 32px; box-shadow: var(--shadow-sm); position: relative;
+    border-left: 3px solid var(--eco-500);
+  }
+  .strat-no { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--eco-500); }
+  .strat-item h3 { font-size: 1.2rem; margin: 6px 0 12px; color: var(--ink); }
+  .strat-item p { margin: 0; color: var(--ink-soft); line-height: 1.75; }
+
+  /* Timeline */
+  .timeline { position: relative; display: grid; gap: 4px; padding-left: 8px; }
+  .timeline::before { content: ""; position: absolute; left: 45px; top: 12px; bottom: 12px; width: 2px; background: var(--line); }
+  .tl-item { position: relative; display: flex; gap: 26px; align-items: flex-start; padding: 12px 0; }
+  .tl-marker { flex: none; width: 76px; display: flex; justify-content: center; }
+  .tl-marker span {
+    position: relative; z-index: 1; font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem;
+    color: #fff; background: linear-gradient(135deg, var(--eco-600), var(--eco-500));
+    border-radius: 20px; padding: 8px 12px; box-shadow: 0 4px 12px rgba(15, 157, 99, 0.3);
+  }
+  .tl-card {
+    flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 24px 28px; box-shadow: var(--shadow-sm);
+  }
+  .tl-stage { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; font-weight: 600; color: var(--eco-600); text-transform: uppercase; }
+  .tl-card h3 { font-size: 1.2rem; margin: 8px 0 14px; color: var(--ink); }
+  .tl-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .tl-card li { position: relative; padding-left: 18px; color: var(--ink-soft); line-height: 1.6; }
+  .tl-card li::before { content: ""; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--eco-500); }
+
+  /* Outcomes */
+  .out-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .out-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .out-card {
+    text-align: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 30px 20px; box-shadow: var(--shadow-sm);
+  }
+  .out-value { font-family: var(--font-mono); font-weight: 700; font-size: 1.6rem; color: var(--cau-700); letter-spacing: -0.01em; }
+  .out-label { margin-top: 8px; color: var(--muted); font-weight: 600; font-size: 0.92rem; }
+
+  @media (max-width: 820px) {
+    .strat-grid { grid-template-columns: 1fr; }
+    .out-grid { grid-template-columns: repeat(2, 1fr); }
+    .tl-item { gap: 14px; }
+    .timeline::before { left: 38px; }
+    .tl-marker { width: 62px; }
+  }
+  @media (max-width: 520px) {
+    .tr-head { flex-wrap: wrap; gap: 12px 16px; padding: 22px 20px; }
+    .tr-caret { order: -1; align-self: flex-start; margin-left: auto; }
+    .tr-panel-inner { padding: 6px 20px 24px; }
+    .course { padding: 12px 14px; }
+    .c-meta { margin-left: 0; flex-basis: 100%; }
+    .out-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tr-caret { transition: none; }
+  }
+</style>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // 트랙 아코디언: 헤더 클릭 시 교과목 패널 토글
+  document.querySelectorAll('.tr-head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const expanded = head.getAttribute('aria-expanded') === 'true';
+      const panelId = head.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      head.setAttribute('aria-expanded', String(!expanded));
+      if (panel) panel.hidden = expanded;
+    });
+  });
+</script>
