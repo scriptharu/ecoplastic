@@ -1,6 +1,6 @@
 ---
 title: '[세미나] 2026년 제1회 산학 연계 세미나 개최 안내 (Cell Press Editor-in-Chief 초청)'
-date: 2026-03-26
+date: 2026-03-12
 category: 세미나
 thumbnail: /uploads/ChatGPT Image 2026년 7월 21일 오전 11_41_35.png
 attachments: []
