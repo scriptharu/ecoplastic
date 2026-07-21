@@ -40,12 +40,12 @@ const roadmap = [
 
 // 주요 성과목표 (연간)
 const outcomes = [
-  { value: 'SCI 5편+', label: '국제 논문 게재 / 년' },
-  { value: '특허 2건+', label: '출원 / 년 (등록 1건+)' },
-  { value: '3건+', label: '산학협력 프로젝트 / 년' },
-  { value: '10명+', label: '인턴십 참여 / 년' },
+  { value: 'SCI 12편+', label: '국제 논문 게재 / 년' },
+  { value: '특허 5건+', label: '출원 / 년' },
+  { value: '5건+', label: '산학협력 프로젝트 / 년' },
+  { value: '20명+', label: '인턴십 참여 / 년' },
   { value: '매 학기', label: '산학연계 세미나·워크숍' },
-  { value: '2권', label: '특성화 교재 발간' },
+  { value: '1권+', label: '특성화 교재 발간' },
 ];
 
 // 배출인력 수료기준 (사업계획서 40p — 학위 과정별 이수 요건)
@@ -102,7 +102,7 @@ const gradNotes = [
                     {g.courses.map((c) => (
                       <li class="course">
                         <div class="course-head">
-                          <span class={`c-type c-type--${c.type === '전필' ? 'req' : 'opt'}`}>{c.type}</span>
+                          <span class={`c-type c-type--${c.type === '공통' ? 'req' : 'opt'}`}>{c.type}</span>
                           <span class="c-name">{c.name}</span>
                         </div>
                         <p class="c-desc">{c.desc}</p>
