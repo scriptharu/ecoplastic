@@ -248,11 +248,19 @@ export const ECLASS = {
 
 export type Univ = keyof typeof ECLASS;
 export type OpenCourse = { nameKo: string; nameEn: string; professor: string; univ: Univ };
-export type SemesterCourses = { semester: string; courses: OpenCourse[] };
+export type SemesterCourses = {
+  semester: string;
+  /** 수강 가능 기간 (한국 시각 기준, 시작·종료일 모두 포함). 'YYYY-MM-DD' */
+  openFrom: string;
+  openTo: string;
+  courses: OpenCourse[];
+};
 
 export const OPEN_COURSES: SemesterCourses[] = [
   {
     semester: '2026-1학기',
+    openFrom: '2026-03-01',
+    openTo: '2026-06-30',
     courses: [
       { nameKo: '반응공학특론', nameEn: 'Advanced Chemical Reaction Engineering', professor: '안솔', univ: '중앙대학교' },
       { nameKo: '고분자재료화학', nameEn: 'Polymer Materials Chemistry', professor: '박주현', univ: '중앙대학교' },
@@ -262,6 +270,8 @@ export const OPEN_COURSES: SemesterCourses[] = [
   },
   {
     semester: '2026-2학기',
+    openFrom: '2026-08-01',
+    openTo: '2027-01-31',
     courses: [
       { nameKo: '폐플라스틱 재활용 및 자원화 기술', nameEn: 'Resource cycle and Circular Economy', professor: '유영재', univ: '중앙대학교' },
       { nameKo: '탈플라스틱 전과정 이해', nameEn: 'Introduction to AI and Big Data for the Circular Economy', professor: '이창연', univ: '중앙대학교' },
