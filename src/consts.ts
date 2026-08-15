@@ -235,6 +235,49 @@ export const TRACKS: Track[] = [
   },
 ];
 
+// 교과목 페이지 접속 기록을 받는 Google Apps Script 웹앱 주소.
+// 설정 방법: docs/setup/교과목-접속기록-구글시트-연동.md
+// 비워두면 기록 없이 폼이 그대로 통과하므로, 배포 전에도 페이지는 정상 동작한다.
+export const COURSE_LOG_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgOM9S-InJeOsp1UNiylOgeJIpCrdGCwm9Oy24NJfBlvXVKa9b5apEKMTXO6r0K3qO/exec';
+
+// 학기별 개설 교과목 — 각 학교의 e-class로 연결 (담당자가 학기마다 갱신)
+export const ECLASS = {
+  중앙대학교: 'https://eclass3.cau.ac.kr',
+  국립금오공과대학교: 'https://lms.kumoh.ac.kr',
+} as const;
+
+export type Univ = keyof typeof ECLASS;
+export type OpenCourse = { nameKo: string; nameEn: string; professor: string; univ: Univ };
+export type SemesterCourses = { semester: string; courses: OpenCourse[] };
+
+export const OPEN_COURSES: SemesterCourses[] = [
+  {
+    semester: '2026-1학기',
+    courses: [
+      { nameKo: '반응공학특론', nameEn: 'Advanced Chemical Reaction Engineering', professor: '안솔', univ: '중앙대학교' },
+      { nameKo: '고분자재료화학', nameEn: 'Polymer Materials Chemistry', professor: '박주현', univ: '중앙대학교' },
+      { nameKo: '폐플라스틱 재활용 및 자원화 기술', nameEn: 'Resource cycle and Circular Economy', professor: '정현민', univ: '국립금오공과대학교' },
+      { nameKo: '플라스틱 정책 공학', nameEn: 'Plastic Policy Engineering', professor: '이성규', univ: '국립금오공과대학교' },
+    ],
+  },
+  {
+    semester: '2026-2학기',
+    courses: [
+      { nameKo: '폐플라스틱 재활용 및 자원화 기술', nameEn: 'Resource cycle and Circular Economy', professor: '유영재', univ: '중앙대학교' },
+      { nameKo: '탈플라스틱 전과정 이해', nameEn: 'Introduction to AI and Big Data for the Circular Economy', professor: '이창연', univ: '중앙대학교' },
+      { nameKo: '산학연계 캡스톤 프로젝트', nameEn: 'Industry-Academia Cooperation Capstone Project', professor: '송인호', univ: '중앙대학교' },
+      { nameKo: '적층제조특론', nameEn: 'Advanced Additive Manufacturing', professor: '배진혜', univ: '중앙대학교' },
+      { nameKo: '계면현상특론', nameEn: 'Advanced Interfacial Phenomena', professor: '장석태', univ: '중앙대학교' },
+      { nameKo: '고급박막공학', nameEn: 'Advanced Thin-Film Engineering', professor: '김선주', univ: '중앙대학교' },
+      { nameKo: '전달현상특론', nameEn: 'Advanced Transport Phenomena', professor: '송인호', univ: '중앙대학교' },
+      { nameKo: '화공수학특론', nameEn: 'Advanced Chemical Engineering Mathematics', professor: '이창연', univ: '중앙대학교' },
+      { nameKo: '탈플라스틱 전과정 이해', nameEn: 'Introduction to AI and Big Data for the Circular Economy', professor: '김형준', univ: '국립금오공과대학교' },
+      { nameKo: '플라스틱 규제와 대응방법론', nameEn: 'Plastic Regulation and Management Strategies', professor: '엄태준', univ: '국립금오공과대학교' },
+      { nameKo: '융합형 소재 설계', nameEn: 'Integrated Materials Design', professor: '정현민', univ: '국립금오공과대학교' },
+    ],
+  },
+];
+
 // 4대 사업 추진 방향 (사업계획서 II-1 사업내용)
 export type Strategy = { no: string; title: string; desc: string };
 export const STRATEGIES: Strategy[] = [
